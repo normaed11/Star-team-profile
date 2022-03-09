@@ -24,7 +24,7 @@ const templateManager = ({ name, id, email, officeNumber }) => {
             </div>
           </div>
         </div>       
-        `;
+        \n`;
 }
 // creates a personlized card for engineer
 const templateEngineer = ({ name, id, email, github }) => {
@@ -52,7 +52,7 @@ const templateEngineer = ({ name, id, email, github }) => {
               </div>
             </div>
           </div>
-        `
+        \n`
 
 
 }
@@ -83,7 +83,7 @@ const templateIntern = ({ name, id, email, school }) => {
           </div>
         </div>
       </div>
-    `;
+   \n `;
 
 
 }
@@ -107,8 +107,10 @@ const templateData = (body) => {
         <h1>My Great Team<h1>
       </header>
       <main class="container">
+      <section class='row'>
         ${body}
       </main>
+      </section>
     </body>
     </html>
     `;

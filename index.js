@@ -1,9 +1,7 @@
 // after installing inquirer with nmp with the below command line it is imported into the project 
 const inquirer = require('inquirer')
-const Choices = require('inquirer/lib/objects/choices')
-const ListPrompt = require('inquirer/lib/prompts/list')
 const { addIntern, addManager, addEngineer } = require('./src/base');
-const { templateEngineer, templateData, templateIntern } = require('./src/template');
+const { templateEngineer, templateData, templateIntern, templateManager } = require('./src/template');
 const { writeHtml } = require('./src/write')
 // global variables
 let html = '';
@@ -19,15 +17,16 @@ async function teamMenu() {
         }
 
     ])
+    // add responses
     switch (response.add) {
         case 'add engineer':
             // const { name, id, email, github } = addEngineer();
-            html += templateData(templateEngineer(await addEngineer())).join('\n')
+            html += templateEngineer(await addEngineer())
 
             break;
         case 'add intern':
             // const { name, id, email, school } = addIntern();
-            html += templateData(templateIntern(await addIntern())).join('\n')
+            html += templateIntern(await addIntern())
 
             break;
 
@@ -37,7 +36,13 @@ async function teamMenu() {
     }
     // console.log(response.add)
 }
-while (flag) {
-    teamMenu();
+// while cycle to add manger
+async function init() {
+    console.log('Please enter managers info')
+    html += templateManager(await addManager())
+    while (flag) {
+        await teamMenu();
+    }
+    writeHtml(templateData(html));
 }
-writeHtml(html);
+init();
