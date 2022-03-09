@@ -2,6 +2,12 @@
 const inquirer = require('inquirer')
 const Choices = require('inquirer/lib/objects/choices')
 const ListPrompt = require('inquirer/lib/prompts/list')
+const { addIntern, addManager, addEngineer } = require('./src/base');
+const { templateEngineer, templateData, templateIntern } = require('./src/template');
+const { writeHtml } = require('./src/write')
+// global variables
+let html = '';
+let flag = true;
 // function to show a menu of choices 
 async function teamMenu() {
     const response = await inquirer.prompt([
@@ -15,74 +21,23 @@ async function teamMenu() {
     ])
     switch (response.add) {
         case 'add engineer':
-            // addEngineer(); 
-            console.log('engineer')
+            // const { name, id, email, github } = addEngineer();
+            html += templateData(templateEngineer(await addEngineer())).join('\n')
+
             break;
         case 'add intern':
-            // addIntern();
-            console.log('intern')
+            // const { name, id, email, school } = addIntern();
+            html += templateData(templateIntern(await addIntern())).join('\n')
+
             break;
-        default: break;
+
+        default: flag = false;
+            break;
 
     }
     // console.log(response.add)
 }
-function addManager() {
-    inquirer.prompt([{
-        type: 'text',
-        message: "Manager's Name ?",
-        name: 'managername',
-        validate: managernameinput => {
-            if (managernameinput) {
-                return true
-            }
-            else {
-                return false
-            }
-        }
-    },
-    {
-        type: 'text',
-        message: "manager Id ?",
-        name: 'managerId',
-        validate: manageridinput => {
-            if (manageridinput) {
-                return true
-            }
-            else {
-                return false
-            }
-        }
-    },
-    {
-        type: 'text',
-        message: "manager email ?",
-        name: 'manageremail',
-        validate: manageremailinput => {
-            if (manageremailinput) {
-                return true
-            }
-            else {
-                return false
-            }
-        }
-    },
-    {
-        type: 'text',
-        message: "Manager office number ?",
-        name: 'managerofficenumber',
-        validate: managerofficenumberinput => {
-            if (managerofficenumberinput) {
-                return true
-            }
-            else {
-                return false
-            }
-        }
-    },
-
-    ])
-
-
+while (flag) {
+    teamMenu();
 }
-teamMenu();
+writeHtml(html);
